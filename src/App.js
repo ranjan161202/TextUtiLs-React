@@ -13,9 +13,11 @@ import {
 
 function App() {
   const[mode, setMode] = useState('light');
-  const[text,setText] = useState('Enable Dark Mode');
+  const[text,setText] = useState('Enable Toggle Mode');
   const[alert, setAlert] = useState(null);
-  
+  const[btn_color,setBtnColor] = useState('primary');
+  const[h1_color,setH1Color] = useState('black');
+
   const showAlert=(message,type)=>{
     setAlert({
         msg:message,
@@ -26,33 +28,46 @@ function App() {
     },1500);
   }
 
-  const toggleMode =()=>{
-    if(mode==='light')
+  const removeBodyClasses = ()=>{
+    document.body.classList.remove('bg-primary');
+    document.body.classList.remove('bg-secondary');
+    document.body.classList.remove('bg-danger');
+    document.body.classList.remove('bg-success');
+    document.body.classList.remove('bg-warning');
+    document.body.classList.remove('bg-info');
+    document.body.classList.remove('bg-light');
+  }
+  const toggleMode =(cls)=>{
+    if(cls==='primary' || cls==='success' || cls==='info')
     {
-      setMode('dark');
-      setText("Enable Light Mode");
-      let darkModes = ["#4C0027","#041C32","#461111","#3E065F","#1E5128","#2A0944","#261C2C","#2C061F","#892CDC","#042743"]
-      document.body.style.backgroundColor  =darkModes[Math.floor(Math.random()*10)] ;
-      showAlert("Dark Mode has been enabled","success");
-      document.title = "TextUtils- DarkMode";
-      // setInterval(
-      //   ()=>{
-      //     document.title = "TextUtils is Amazing";
-      //   },2000
-      // );  
-      // setInterval(
-      //   ()=>{
-      //     document.title = "Install TextUtils Now";
-      //   },2000
-      // );
+        setBtnColor('danger');
     }
-      else
-    {
-      setMode('light');
-      setText("Enable Dark Mode");
-      document.body.style.backgroundColor  = 'white' ; 
-      showAlert("Light Mode has been enabled","success");
-      document.title = "TextUtils- Home";
+    else
+        setBtnColor('primary');
+        
+        removeBodyClasses();
+        document.body.classList.add('bg-'+cls);
+        if(mode==='light')
+        {
+          if(cls!=='light')
+            setH1Color('white');
+          else
+            setH1Color('black');
+          setMode('dark');
+          setText("Disable Toggle Mode");
+          showAlert("Dark Mode has been enabled","success");
+          
+        }
+        else
+        {
+          setMode('light');
+          setText("Enable Toggle Mode");
+          showAlert("Light Mode has been enabled","success");
+          setH1Color('black');
+          
+          
+          
+      // document.title = "TextUtils- Home";
 
     }
   }
@@ -66,10 +81,10 @@ function App() {
         <div className='container my-3'>
             <Switch>
               <Route exact path="/about" >
-                <About />
+                <About mode={mode}/>
               </Route>
               <Route exact path="/">
-                <Textform  showAlert = {showAlert} heading="Enter the text to Analyze" mode={mode}/> 
+                <Textform  showAlert = {showAlert} h1_color={h1_color} button_color = {btn_color} heading="Try TextUtils - Word Counter, Character Counter, Remove Extra Spaces" mode={mode}/> 
               </Route>
             </Switch>
         </div>
