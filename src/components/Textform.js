@@ -69,7 +69,7 @@ export default function Textform(props) {
                 <button disabled = {text.length===0} className={`btn btn-${props.button_color} mx-1 my-1`} onClick={handleExtraSpaces}>Remove Extra Spaces</button>
                 <button disabled = {text.length===0} className={`btn btn-${props.button_color} mx-1 my-1`} onClick={handleCopy}>Copy text</button>
         </div>
-        <div className='container my-3' style = {{color: props.mode==="dark"?"white":"black"}}>
+        <div className='container my-3' style = {{color: props.h1_color}}>
             <h2 >Your text summary</h2>
             <p >{calcWordCount(text)} words and {text.length} characters</p>
             <p >{0.008 * text.split(" ").filter((element)=>{return element.length!==0}).length} Minutes read</p>
